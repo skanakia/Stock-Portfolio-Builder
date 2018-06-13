@@ -4,7 +4,8 @@
   "description": "",
   "main": "logic.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,13 @@
   "bugs": {
     "url": "https://github.com/skanakia/Stock-Portfolio-Builder/issues"
   },
-  "homepage": "https://github.com/skanakia/Stock-Portfolio-Builder#readme"
+  "homepage": "https://github.com/skanakia/Stock-Portfolio-Builder#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "compute-covariance": "^1.0.1",
+    "express": "^4.16.3",
+    "npm": "^6.1.0",
+    "path": "^0.12.7",
+    "regression": "^2.0.1"
+  }
 }
