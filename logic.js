@@ -11,9 +11,9 @@ var stockList = [];
 var stock1 = [20.1, 22.4, 23.2, 25.8];
 var stock2 = [13.1, 11.4, 10.2, 9.5];
 var stock3 = [20.1, 22.4, 23.2, 25.8];
-var stock4 = [39.1, 58.4, 48.2, 67.5];;
-var stock5 = [2.1, 3.4, 4.2, 5.5];;
-var stock6 = [29.1, 26.4, 24.2, 25.5];;
+var stock4 = [39.1, 58.4, 48.2, 67.5];
+var stock5 = [2.1, 3.4, 4.2, 5.5];
+var stock6 = [29.1, 26.4, 24.2, 25.5];
 var stock7 = [40.1, 43.4, 43.2, 43.5];
 var stock8 = [12.1, 11.4, 10.2, 9.5];
 var stock9 = [28.1, 12.4, 29.2, 30.5];
@@ -38,7 +38,7 @@ console.log(covariances);
 function calculateVariance() {
     switch (stockList.length) {
         case 1:
-            varTot += covariances[0][0]
+            varTot += Math.pow(weights[0],2) * covariances[0][0]
             break
         case 2:
             varTot += (Math.pow(weights[0], 2) * covariances[0][0]) + (Math.pow(weights[1], 2) * covariances[1][1]) + (2 * (weights[0] * weights[1]) * covariances[0][1]);

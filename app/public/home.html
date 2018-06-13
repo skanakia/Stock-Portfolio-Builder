@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Stockly</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../assets/css/style.css" />
+
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-wrapper deep-purple">
+                <a href="#" class="brand-logo">Stockly</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li>
+                        <a href="#add">Add Stock</a>
+                    </li>
+                    <li>
+                        <a href="#portfolio">Manage Portfolio</a>
+                    </li>
+                    <li>
+                        <a href="#contact">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="parallax-container">
+            <div class="parallax">
+                <img class="responsive-img" src="../assets/images/Stock-Market2.jpg">
+            </div>
+        </div>
+        <div class="section blue lighten-4">
+            <div class="row container">
+                <h2 class="header">Getting Started</h2>
+                <p class="grey-text text-darken-3 lighten-3">
+
+                    Search the name of a Company in order to receive metrics that will inform your decision on whether to add it to your Portfolio.
+
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="stock" type="text">
+                            <label for="stock"> Search Company</label>
+                            <!-- <button class="btn waves-effect waves-light modal-trigger" type="submit" name="action">Submit
+                                <i class="material-icons right">send</i>
+                            </button> -->
+                        </div>
+                    </div>
+                    <!-- Modal Trigger -->
+                    <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Get Info</a>
+
+                    <!-- Modal Structure -->
+                    <div id="modal1" class="modal bottom-sheet blue-grey lighten-4">
+                        <div class="modal-content">
+                            <h4>Stock Profile (last 180 days)</h4>
+                            <div class="row">
+                                <div class="col s4">
+                                    <div id="chart">
+
+                                    </div>
+                                </div>
+                                <div class="col s8">
+                                    <div id="stock-info">
+                                        Filler Text
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                        </div>
+                    </div>
+
+                </p>
+            </div>
+        </div>
+        <div class="parallax-container">
+            <div class="parallax">
+                <img class="responsive-img" src="../assets/images/Stockly3.jpg">
+            </div>
+        </div>
+        <div class="section blue lighten-4">
+            <div class="row container">
+                <h2 class="header">Portfolio</h2>
+                <p class="grey-text text-darken-3 lighten-3">
+                    Please enter the relative weights (in decimals) that you want to ascribe to each stock in your Portfolio. For the most accurate Portfolio data please make sure that the weights add up to 1.
+                </p>
+                <div class="row">
+                    <div class="col s6">
+                        <div id="stock-portfolio">
+
+                        </div>
+                    </div>
+                    <div class="col s6">
+                        <div id="portfolio-stats">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <footer class="page-footer deep-purple">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Contact Us</h5>
+                    <p class="grey-text text-lighten-4">
+                        <p class="fa fa phone">
+
+                        </p>
+                    </p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        <li>
+                            <a class="grey-text text-lighten-3" href="#!">Link 1</a>
+                        </li>
+                        <li>
+                            <a class="grey-text text-lighten-3" href="#!">Link 2</a>
+                        </li>
+                        <li>
+                            <a class="grey-text text-lighten-3" href="#!">Link 3</a>
+                        </li>
+                        <li>
+                            <a class="grey-text text-lighten-3" href="#!">Link 4</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2018 Copyright
+                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <script src="../assets/javascript/main.js"></script>
+
+</body>
+
+</html>
