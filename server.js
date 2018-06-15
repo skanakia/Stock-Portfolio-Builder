@@ -5,7 +5,14 @@ var fs = require("fs");
 
 
 var app = express();
-var PORT = process.env.PORT || 8080;
+var PORT = process.env.PORT || 8081;
+
+app.use(express.static(__dirname + '/app'));
+
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 
 var apiRoutes = require("./app/routing/apiRoutes")(app);
 
@@ -24,10 +31,10 @@ app.get("/", function (req, res) {
 });
 
 
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.use(express.static(__dirname + '/app'));
+// app.use(express.static(__dirname + '/app'));
 
 
 app.listen(PORT, function () {

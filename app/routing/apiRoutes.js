@@ -1,20 +1,19 @@
 var path = require("path");
-var friendList = require("../data/data.js");
+var stockData = require("../data/data.js");
+var express = require("express");
 
+module.exports = function (app) {
 
-
-module.exports = function(app){
-
-    app.get('/api/portfolio', function(req, res){
-        res.json(data);
+    
+    app.get('/api/portfolio', function (req, res) {
+        res.json(stockData);
     });
 
-    // app.get('/assets/images/Stock-Market2.jpg', function(req, res){
-    //     res.sendFile(path.join(__dirname, "../assets/images/Stock-Market2.jpg"));
-    // });
+    var temp = {}
 
-    // app.post("/api/portfolio", function(req, res) {
-        
-    // });
+    app.post('/api/portfolio', function (req, res) {
+        console.log(req.body);
+      
+    });
 };
 
