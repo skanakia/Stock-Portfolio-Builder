@@ -2,9 +2,10 @@ $(document).ready(function () {
     $('.parallax').parallax();
     $('.modal').modal();
 
-    $("#submit").on("click", function (event) {
+    $(".btn").on("click", function (event) {
+        $('.modal').modal('open');
         event.preventDefault();
-        // $('.modal').modal();
+       
         var company = $("#stock").val().trim();
 
         event.stopPropagation();
