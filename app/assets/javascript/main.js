@@ -5,7 +5,7 @@ $(document).ready(function () {
     $(".btn").on("click", function (event) {
         $('.modal').modal('open');
         event.preventDefault();
-       
+
         var company = $("#stock").val().trim();
 
         event.stopPropagation();
@@ -42,10 +42,20 @@ $(document).ready(function () {
                 .then(function (res) {
                     console.log(res);
 
-
+                    var newDiv = $("<div>").attr("class", "company-result");
+                    var newH5 = $("<h5>").text(res.name);
+                    var newH6 = $("<h6>").text(res.symbol);
+                    var ctx = document.getElementById("myChart").getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: res.data,
+                        options: options
+                    });
                 });
+
         });
+    });
 
 
-    })
+
 });
