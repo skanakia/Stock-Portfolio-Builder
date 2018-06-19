@@ -47,40 +47,49 @@
             <p class="grey-text text-darken-3 lighten-3">
 
                 Search the name of a Company in order to receive metrics that will inform your decision on whether to add it to your Portfolio.
-
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input id="stock" type="text">
-                        <label for="stock"> Search Company</label>
-                    </div>
+            </p>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="stock" type="text">
+                    <label for="stock"> Search Company</label>
                 </div>
-                <!-- Modal Trigger -->
-                <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Get Info</a>
+            </div>
+            <!-- Modal Trigger -->
+            <a id="get-info" class="waves-effect waves-light btn" href="#modal1">Get Info</a>
 
 
-                <!-- Modal Structure -->
-                <div id="modal1" class="modal bottom-sheet blue-grey lighten-4">
-                    <div class="modal-content">
-                        <h4>Stock Profile (last 5 months)</h4>
-                        <div class="row">
-                            <div class="col s8">
-                                <div id="chart">
-                                    <canvas id="myChart" width="600px" height="600px"></canvas>
-                                </div>
+            <!-- Modal Structure -->
+            <div id="modal1" class="modal bottom-sheet blue-grey lighten-4">
+                <div class="modal-content">
+                    <h4>Stock Profile (last 5 months)</h4>
+                    <div class="row">
+                        <div class="col s8">
+                            <div id="chart">
+                                <canvas id="myChart" width="600px" height="600px"></canvas>
                             </div>
-                            <div class="col s4">
-                                <div id="stock-info">
-                
-                                </div>
+                        </div>
+                        <div class="col s4">
+                            <div class="row" id="stock-info">
+
+                            </div>
+                            <div class="row" id="add-discard-btns">
+                                <a id="add-btn" class="modal-close waves-effect waves-light btn">Add to Portfolio</a>
+                                <a id="discard-btn" class="modal-close waves-effect waves-light btn">Discard</a>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-                    </div>
                 </div>
+            </div>
+            <div id="modal2" class="modal">
+                <div class="modal-content">
+                    <h4>Beta Description</h4>
+                    <p>A beta of less than 1 means that the security is theoretically less volatile than the market. A beta of greater than 1 indicates that the security's price is theoretically more volatile than the market. For example, if a stock's beta is 1.2, it's theoretically 20% more volatile than the market.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Done</a>
+                </div>
+            </div>
 
-            </p>
         </div>
     </div>
     <div class="parallax-container">

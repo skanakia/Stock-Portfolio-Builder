@@ -1,9 +1,7 @@
-var weights = [];
-var stockPercChange = [];
-var stockPrices = [];
+var stockList = {
+    data: []
+}
 
 module.export = {
-    weights,
-    stockPercChange,
-    stockPrices
+    stockList
 }
