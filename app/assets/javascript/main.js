@@ -3,6 +3,7 @@
 $(document).ready(function () {
     $('.parallax').parallax();
     $('.modal').modal();
+    // $.fn.modal.Constructor.prototype.enforceFocus = function() {};
 
     var tempStock = [];
 
@@ -114,10 +115,10 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".betaDesc", function (event) {
-        // $('#modal2').modal();
-        // $('#modal2').modal('open');
-        // event.preventDefault();
-        // event.stopPropagation();
+        $('#modal2').modal();
+        $('#modal2').modal('open');
+        event.preventDefault();
+        event.stopPropagation();
     });
 
 });
