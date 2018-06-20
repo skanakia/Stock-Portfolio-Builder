@@ -1,5 +1,5 @@
 var path = require("path");
-var stockData = require("../data/data.js");
+// var stockData = require("../data/data.js");
 var express = require("express");
 var request = require("request");
 var $ = require("jquery");
@@ -7,9 +7,12 @@ var moment = require('moment');
 var regression = require('regression');
 
 module.exports = function (app) {
-
+    var stockData = []
+    var temp = [];
 
     app.get('/api/portfolio', function (req, res) {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(content, 'utf-8');
         res.json(stockData);
     });
 
@@ -20,6 +23,7 @@ module.exports = function (app) {
 
 
     app.post('/api/temporary', function (req, res) {
+        res.setHeader('Content-Type', 'application/json');
         var temp = {};
         console.log(req.body);
         temp =
@@ -49,24 +53,24 @@ module.exports = function (app) {
                 for (var key in results) {
                     if (results.hasOwnProperty(key)) {
                         var day = moment(key).format("MMM DD YYYY");
-                        
+
                         temp.open.unshift(results[key]["1. open"]);
                         temp.high.unshift(results[key]["2. high"]);
                         temp.low.unshift(results[key]["3. low"]);
-                        temp.date.unshift(day);    
+                        temp.date.unshift(day);
                         temp.close.unshift(results[key]['4. close']);
                     }
                 }
                 for (var i = 1; i < temp.close.length; i++) {
-                    var perchan = parseFloat((temp.close[i] - temp.close[i-1]) / temp.close[i-1]).toFixed(4);
+                    var perchan = parseFloat((temp.close[i] - temp.close[i - 1]) / temp.close[i - 1]).toFixed(4);
                     temp.percChange.push(perchan);
                 }
-                
+
                 for (var i = 0; i < temp.close.length; i++) {
                     temp.regressionPoints.push([parseFloat(i), parseFloat(temp.close[i])]);
                 }
                 var data = temp.regressionPoints
-                var regResult = regression.linear(data, {order: 3, precision: 3});
+                var regResult = regression.linear(data, { order: 3, precision: 3 });
                 temp.regResults.push(regResult);
                 // console.log(temp);
 
@@ -91,10 +95,22 @@ module.exports = function (app) {
     });
 
     app.post('/api/portfolio', function (req, res) {
-        if (req.company === true) {
-            stockList.data.push(req)
+        res.setHeader('Content-Type', 'application/json');
+
+        if (req.body[0].beta) {
+
+            console.log(req.body[0]);
+            console.log(req.body[0].regResults)
+            stockData.push(req.body[0]);
+        } else {
+            for (var i = 0; i < stockData.data.length; i++) {
+                if (stockData[i].company === req.body.company) {
+                    stockData.data.splice(i, 1);
+                }
+            }
         }
-        
+
+        res.json(stockData.data);
 
     });
 };
