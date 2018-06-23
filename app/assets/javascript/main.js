@@ -136,7 +136,9 @@ $(document).ready(function () {
                 for (var i = 0; i < res.length; i++) {
 
                     var newDiv = $("<div>").attr("class", "portfolio-result");
-                    var newH6 = $("<h6>").text(res[i].company);
+                    var newH6 = $("<h6>").text((i+1) + ". " + res[i].company);
+                    var weightInput = $('<div class="input-field"><input id="' + res[i].company + '" type="text"><label for="' + res[i].company + '">Enter Weight Here...</label></div>');
+                    
                     $(newDiv).append(newH6);
                     var newP = $("<p>").text("Regression: " + res[i].regResults[0].string)
                     var newP2 = $("<p>").text("Expected Return (over the next 5 months): " + (parseFloat(res[i].regResults[0].equation[0]) * 100) + "%").attr("class", "highlight");
@@ -154,6 +156,7 @@ $(document).ready(function () {
                     $(newP5).append(pTBDesc);
                     $(newDiv).append(newP4);
                     $(newDiv).append(newP5);
+                    $(newDiv).append(weightInput);
                     $("#stock-portfolio").append(newDiv);
 
                 }
