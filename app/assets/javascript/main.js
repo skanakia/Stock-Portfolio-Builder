@@ -8,6 +8,9 @@ $(document).ready(function () {
     var tempStock = [];
 
     $("#get-info").on("click", function (event) {
+
+        tempStock = []; 
+
         $('#modal1').modal('open');
         event.preventDefault();
 
@@ -32,12 +35,13 @@ $(document).ready(function () {
             url: "https://sandbox.tradier.com/v1/markets/search?q=" + compConcat,
             method: "GET",
             headers: {
-                'Authorization': 'Bearer NnNztGC751WHUWbfcdHhHOuwTQNO',
-                'Accept': 'application/json'
+                'Authorization': 'Bearer qTxFDjZGPZ7ibz8l6Qx8bb1J2Oh7',
+                'Accept': 'application/json',
+
             }
         }).then(function (response) {
             console.log(response);
-            var symbol = response.securities.security[0];
+            var symbol = response.securities.security[0] || response.securities.security;
 
             var compObj = {
                 "company": symbol
@@ -49,7 +53,10 @@ $(document).ready(function () {
 
                     tempStock.push(res);
 
-
+                    $("#stock-info").empty();
+                    $("#chart").empty();
+                    var newCanvas = $("<canvas>").attr({"id": "myChart", "width": "600px", "height": "600px"});
+                    $("#chart").append(newCanvas);
 
                     var newDiv = $("<div>").attr("class", "company-result");
                     var newH5 = $("<h5>").text(compObj.company.description);
@@ -73,6 +80,7 @@ $(document).ready(function () {
                     $(newDiv).append(newP4);
                     $(newDiv).append(newP5);
                     $("#stock-info").append(newDiv);
+
 
                     var ctx = document.getElementById("myChart").getContext('2d');
                     var myChart = new Chart(ctx, {
@@ -108,22 +116,50 @@ $(document).ready(function () {
 
     $("#add-btn").on("click", function (event) {
         event.preventDefault();
-        // tempStock[0].remove = -1;
-        // var stockPush = JSON.parse(tempStock[0])
         console.log(tempStock);
 
-        $.ajaxSetup({
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
+        // $.ajaxSetup({
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Accept': 'application/json'
+        //     }
+        // });
 
-        $.post("/api/portfolio", JSON.stringify(tempStock))
-        .then(function (res) {
-            console.log("Added stock! " + res);
-            // tempStock = [];
-        });
+        $.post("/api/portfolio", tempStock[0])
+            .then(function (result) {
+                console.log(result);
+                
+                var res = result;
+
+                $("#stock-portfolio").empty();
+
+                for (var i = 0; i < res.length; i++) {
+
+                    var newDiv = $("<div>").attr("class", "portfolio-result");
+                    var newH6 = $("<h6>").text(res[i].company);
+                    $(newDiv).append(newH6);
+                    var newP = $("<p>").text("Regression: " + res[i].regResults[0].string)
+                    var newP2 = $("<p>").text("Expected Return (over the next 5 months): " + (parseFloat(res[i].regResults[0].equation[0]) * 100) + "%").attr("class", "highlight");
+                    var newP3 = $("<p>").text("r ^ 2: " + res[i].regResults[0].r2 + "  ").attr("class", "r2");
+                    $(newDiv).append(newP);
+                    $(newDiv).append(newP2);
+                    $(newDiv).append(newP3);
+                    var r2Desc = $("<button>").text("What's This").attr({ "class": "r2Desc" })
+                    $(newP3).append(r2Desc);
+                    var newP4 = $("<p>").text("Beta: " + res[i].beta + "  ").attr("class", "beta");
+                    var betaDesc = $("<button>").text("What's This").attr({ "class": "betaDesc" })
+                    $(newP4).append(betaDesc);
+                    var newP5 = $("<p>").text("Price-to-Book: " + res[i].priceToBook + "  ").attr("class", "highlight2");
+                    var pTBDesc = $("<button>").text("What's This").attr({ "class": "pTBDesc" })
+                    $(newP5).append(pTBDesc);
+                    $(newDiv).append(newP4);
+                    $(newDiv).append(newP5);
+                    $("#stock-portfolio").append(newDiv);
+
+                }
+
+                tempStock = [];
+            });
     });
 
     $("#discard-btn").on("click", function (event) {

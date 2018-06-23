@@ -5,6 +5,9 @@ var request = require("request");
 var $ = require("jquery");
 var moment = require('moment');
 var regression = require('regression');
+const Tradier = require('tradier-client');
+
+const tradier = new Tradier('qTxFDjZGPZ7ibz8l6Qx8bb1J2Oh7', 'sandbox');
 
 module.exports = function (app) {
     var stockData = []
@@ -23,9 +26,27 @@ module.exports = function (app) {
 
 
     app.post('/api/temporary', function (req, res) {
-        res.setHeader('Content-Type', 'application/json');
+        // res.setHeader('Content-Type', 'application/json');
         var temp = {};
-        console.log(req.body);
+
+
+        // const params = {
+        //     q: req, 
+        //     exchanges: ['Q', 'N'],
+        //     types: ['stock', 'etf'],
+        //   };
+          
+        //   tradier
+        //     .lookup(params)
+        //     .then(symbols => {
+        //       console.log(symbols[0])
+        //     })
+        //     .catch(error => {
+        //       console.log(error);
+        //     })
+
+
+        // console.log(symbols[0]);
         temp =
             {
                 "company": req.body.company.symbol,
@@ -47,6 +68,7 @@ module.exports = function (app) {
         var queryURL = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + req.body.company.symbol + "&outputsize=compact&apikey=POTSVIBL1MZ1SJIO";
 
         request(queryURL, function (error, response, body) {
+
             if (!error && response.statusCode == 200) {
                 var parsedBody = JSON.parse(body);
                 var results = parsedBody['Time Series (Daily)'];
@@ -96,21 +118,22 @@ module.exports = function (app) {
 
     app.post('/api/portfolio', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
+        var resData =JSON.parse(JSON.stringify(req.body));
+        // if (req.body[0].beta) {
 
-        if (req.body[0].beta) {
+            console.log(resData);
+            stockData.push(resData);
+        //     console.log(req.body[0].regResults)
+        //     stockData.push(req.body[0]);
+        // } else {
+        //     for (var i = 0; i < stockData.data.length; i++) {
+        //         if (stockData[i].company === req.body.company) {
+        //             stockData.splice(i, 1);
+        //         }
+        //     }
+        // }
 
-            console.log(req.body[0]);
-            console.log(req.body[0].regResults)
-            stockData.push(req.body[0]);
-        } else {
-            for (var i = 0; i < stockData.data.length; i++) {
-                if (stockData[i].company === req.body.company) {
-                    stockData.data.splice(i, 1);
-                }
-            }
-        }
-
-        res.json(stockData.data);
+        res.json(stockData);
 
     });
 };
