@@ -28,9 +28,9 @@ async function execute(stock) {
     }
 
     var inputL = new neataptic.Layer.Dense(1);
-    var hidden1 = new neataptic.Layer.LSTM(40);
-    var hidden2 = new neataptic.Layer.LSTM(40);
-    var hidden3 = new neataptic.Layer.LSTM(40);
+    var hidden1 = new neataptic.Layer.LSTM(20);
+    var hidden2 = new neataptic.Layer.LSTM(20);
+    var hidden3 = new neataptic.Layer.LSTM(20);
     var output = new neataptic.Layer.Dense(1);
 
     // connect however you want
