@@ -32,3 +32,9 @@
     height: 500px;
     overflow: auto;
 }
+
+#centerHighlight {
+    text-align: center;
+    color: purple;
+    font-size: 50px;
+}

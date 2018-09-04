@@ -6,8 +6,102 @@ var $ = require("jquery");
 var moment = require('moment');
 var regression = require('regression');
 const Tradier = require('tradier-client');
+var neataptic = require("neataptic");
 
 const tradier = new Tradier('qTxFDjZGPZ7ibz8l6Qx8bb1J2Oh7', 'sandbox');
+
+
+
+
+
+async function execute(stock) {
+    // var myNetwork = undefined;
+    if (network) {
+        network.clear();
+        inputL.clear();
+        hidden1.clear();
+        hidden2.clear();
+        hidden3.clear();
+        output.clear();
+
+        console.log("THIS: " + network);
+    }
+
+    var inputL = new neataptic.Layer.Dense(1);
+    var hidden1 = new neataptic.Layer.LSTM(10);
+    var hidden2 = new neataptic.Layer.LSTM(10);
+    var hidden3 = new neataptic.Layer.LSTM(10);
+    var output = new neataptic.Layer.Dense(1);
+
+    // connect however you want
+    inputL.connect(hidden1);
+    hidden1.connect(hidden2);
+    hidden2.connect(hidden3);
+    hidden3.connect(output);
+
+    var network = neataptic.architect.Construct([inputL, hidden1, hidden2, hidden3, output]);
+
+    // myNetwork = new neataptic.architect.LSTM(1, 4, 6, 4, 1);
+
+    var trainingData = []
+
+    for (let i = 0; i < stock.length - 1; i++) {
+        var inout = { input: [(stock[i] / stock[stock.length - 1] * 1.6)], output: [stock[i + 1] / (stock[stock.length - 1] * 1.6)] };
+        trainingData.push(inout);
+    }
+
+
+
+    network.train(trainingData, {
+        log: 500,
+        iterations: 20000,
+        error: 0.03,
+        clear: true,
+        rate: 0.05,
+    });
+
+    await network.evolve(trainingData, {
+        mutation: neataptic.methods.mutation.ALL,
+        mutationRate: 0.4,
+        clear: true,
+        cost: neataptic.methods.cost.MSE,
+        error: 0.03,
+        log: 1000,
+        iterations: 20000
+    }).then(function (res) {
+        var results = {
+            error: neataptic.methods.cost.mse,
+            generations: neataptic.Neat.generation,
+            time: Date.now() - neataptic.Neat.start,
+            evolved: neataptic.Neat.fittest
+        };
+        console.log(results);
+    });
+
+
+
+    for (var i in trainingData) {
+        var input = trainingData[i].input;
+        var output = network.activate([input]);
+        // console.log('Input: ' + (input[0] * 300) + ', output: ' + (output * 300));
+    }
+
+    for (var i = 0; i < 1; i++) {
+        var input = output;
+        var output = network.activate([input]);
+        var ultResult = (output * (stock[stock.length - 1] * 1.6));
+        console.log(ultResult);
+        return ultResult;
+        // $(".predict").text(output * (stock[stock.length] * 1.6)).attr("class", "centerHighlight");
+    }
+
+}
+
+
+
+
+
+
 
 module.exports = function (app) {
     var stockData = []
@@ -55,6 +149,7 @@ module.exports = function (app) {
                 "open": [],
                 "high": [],
                 "low": [],
+                "volume": [],
                 "percChange": [0],
                 "regressionPoints": [],
                 "regResults": [],
@@ -81,6 +176,7 @@ module.exports = function (app) {
                         temp.low.unshift(results[key]["3. low"]);
                         temp.date.unshift(day);
                         temp.close.unshift(results[key]['4. close']);
+                        temp.volume.unshift(results[key]['5. volume'])
                     }
                 }
                 for (var i = 1; i < temp.close.length; i++) {
@@ -136,5 +232,27 @@ module.exports = function (app) {
         res.json(stockData);
 
     });
+
+    app.get('/api/portfolio/:id', function(req, res){
+        var comp = req.params.id
+        for (var i = 0; i < stockData.length; i++) {
+            if (stockData[i].company == comp) {
+                execute(stockData[i].close).then(function(returned){
+                    res.json(returned);
+                });
+            } 
+        }
+
+    });
+
+    app.delete('/api/portfolio/:id', function(req, res){
+        var comp = req.params.id
+        for (var i = 0; i < stockData.length; i++) {
+            if (stockData[i].company == comp) {
+                stockData.splice(i, 1)
+                res.send(comp + " Data Removed");
+            }
+        }
+    })
 };
 

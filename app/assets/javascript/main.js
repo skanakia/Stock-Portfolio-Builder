@@ -140,23 +140,27 @@ $(document).ready(function () {
                     var weightInput = $('<div class="input-field"><input id="' + res[i].company + '" type="text"><label for="' + res[i].company + '">Enter Weight Here...</label></div>');
                     
                     $(newDiv).append(newH6);
-                    var newP = $("<p>").text("Regression: " + res[i].regResults[0].string)
+                    var newP = $("<p>").text("Regression: " + res[i].regResults[0].string);
                     var newP2 = $("<p>").text("Expected Return (over the next 5 months): " + (parseFloat(res[i].regResults[0].equation[0]) * 100) + "%").attr("class", "highlight");
                     var newP3 = $("<p>").text("r ^ 2: " + res[i].regResults[0].r2 + "  ").attr("class", "r2");
                     $(newDiv).append(newP);
                     $(newDiv).append(newP2);
                     $(newDiv).append(newP3);
-                    var r2Desc = $("<button>").text("What's This").attr({ "class": "r2Desc" })
+                    var r2Desc = $("<button>").text("What's This").attr({ "class": "r2Desc" });
                     $(newP3).append(r2Desc);
                     var newP4 = $("<p>").text("Beta: " + res[i].beta + "  ").attr("class", "beta");
-                    var betaDesc = $("<button>").text("What's This").attr({ "class": "betaDesc" })
+                    var betaDesc = $("<button>").text("What's This").attr({ "class": "betaDesc" });
                     $(newP4).append(betaDesc);
                     var newP5 = $("<p>").text("Price-to-Book: " + res[i].priceToBook + "  ").attr("class", "highlight2");
-                    var pTBDesc = $("<button>").text("What's This").attr({ "class": "pTBDesc" })
+                    var pTBDesc = $("<button>").text("What's This").attr({ "class": "pTBDesc" });
+                    var predictBtn = $("<button>").text("Predict").attr({ "class": "predictBtn btn waves-effect waves-light", "id": res[i].company });
+                    var deleteBtn = $("<button>").text("Remove").attr({ "class": "deleteBtn btn waves-effect waves-light", "id": res[i].company });
                     $(newP5).append(pTBDesc);
                     $(newDiv).append(newP4);
                     $(newDiv).append(newP5);
                     $(newDiv).append(weightInput);
+                    $(newDiv).append(predictBtn);
+                    $(newDiv).append(deleteBtn);
                     $("#stock-portfolio").append(newDiv);
 
                 }
@@ -189,4 +193,41 @@ $(document).ready(function () {
         event.preventDefault();
         event.stopPropagation();
     });
+
+    $(document).on("click", ".predictBtn", function (event) {
+        var compId = $(this).attr("id");
+
+        $.ajax({
+            url: "/api/portfolio/" + compId,
+            method: "GET",
+            headers: {
+                'Authorization': 'Bearer qTxFDjZGPZ7ibz8l6Qx8bb1J2Oh7',
+            }
+        }).then(function (response) {
+            console.log(response);
+            $(".predict").text(response).attr("id", "centerHighlight");
+       
+
+            $('#modal5').modal();
+            $('#modal5').modal('open');
+            event.preventDefault();
+            event.stopPropagation();
+        });
+    });
+
+    $(document).on("click", ".deleteBtn", function (event) {
+        var compId = $(this).attr("id");
+
+        $.ajax({
+            url: "/api/portfolio/" + compId,
+            method: "DELETE",
+            headers: {
+                'Authorization': 'Bearer qTxFDjZGPZ7ibz8l6Qx8bb1J2Oh7',
+            }
+        }).then(function (response) {
+            console.log(response);
+            window.location = '/';
+        });
+    });
+
 });
